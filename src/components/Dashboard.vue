@@ -4,7 +4,8 @@
     <div v-if="userExists">
       Welcome {{ pseudo }}. Destroy your account by clicking <a href="#" @click="destroyAccount">here</a>.
     </div>
-    <div v-else>Sign up <router-link to="/signup">here</router-link>.</div>
+    <div v-else><router-link to="/signup"><md-button>Sign up here</md-button></router-link>.</div>
+
   </div>
 </template>
 
