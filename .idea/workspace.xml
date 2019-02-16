@@ -2,59 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d0d2b0b-fc67-4e36-a224-ebf6674de268" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.editorconfig" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/alice-tc2.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/LICENSE" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/eslint/.eslintignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/eslint/.eslintrc.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/postcss/postcss.config.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/vue-loader/vue-loader.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/webpack/dev.env.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/webpack/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/webpack/prod.env.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/webpack/test.env.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/contracts/Migrations.sol" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/contracts/Users.sol" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/index.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/migrations/1_initial_migration.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/migrations/2_deploy_contracts.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/build.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/check-versions.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/dev-client.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/dev-server.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/webpack.base.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/webpack.dev.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/webpack.prod.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/webpack.test.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/App.vue" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/logo.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/Dashboard.vue" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/Signup.vue" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/js/users.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/router/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/.gitkeep" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/e2e/custom-assertions/elementCount.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/e2e/nightwatch.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/e2e/runner.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/e2e/specs/test.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/truffle/TestUsers.sol" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/truffle/user.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/unit/.eslintrc" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/unit/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/unit/karma.conf.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/unit/specs/Dashboard.spec.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/truffle.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -100,17 +48,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+            <state relative-caret-position="30">
+              <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vcs.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vcs.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -280,7 +228,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="299000" />
+    <option name="totallyTimeSpent" value="472000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="224" y="53" width="1376" height="904" extended-state="0" />
@@ -300,6 +248,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -351,10 +300,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+        <state relative-caret-position="30">
+          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Signup.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Dashboard.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
           <folding />
         </state>
       </provider>
