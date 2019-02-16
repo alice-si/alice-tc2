@@ -16,6 +16,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "openzeppelin-solidity": "^2.1.2",
     "bluebird": "^3.5.3",
     "truffle-contract": "^3.0.0",
     "vue": "^2.4.2",

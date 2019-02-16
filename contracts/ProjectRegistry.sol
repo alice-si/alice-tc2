@@ -1,6 +1,9 @@
-pragma solidity >=0.4.22 <0.6.0;
+pragma solidity ^0.5.0;
 
-contract ProjectRegistry {
+import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+import './RegistryToken.sol';
+
+contract ProjectRegistry is Ownable {
 
     enum State {APPLICATION, ACTIVE, CHALLENGE, REJECTED}
 
@@ -10,12 +13,17 @@ contract ProjectRegistry {
     }
 
     Project[] public projects;
+    RegistryToken public token;
+    uint256 public minDeposit;
 
     event ProjectAdded();
     event ProjectRemoved(uint index);
 
 
-    constructor() public {}
+    constructor(uint256 _minDeposit) public {
+      token = new RegistryToken();
+      minDeposit = _minDeposit;
+    }
 
     function getProject(uint index) public view returns (bytes32 name, State state) {
         require(projects.length > index, "Index out of bounds");
@@ -26,14 +34,16 @@ contract ProjectRegistry {
         return projects.length;
     }
 
-    function apply(bytes32 name) public {
+    function mintTokens(uint256 _value) public {
+        token.mint(msg.sender, _value);
+    }
+
+    function applyWithProject(bytes32 name) public {
+        require(token.transferFrom(msg.sender, address(this), minDeposit));
         projects.push(Project({name: name, state: State.APPLICATION}));
 
         emit ProjectAdded();
     }
-
-
-
 
     function removeProject(uint index) public {
         require(projects.length > index, "Index out of bounds");
