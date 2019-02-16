@@ -10,6 +10,10 @@ contract ProjectRegistry is Ownable {
     struct Project {
         bytes32 name;
         State state;
+        uint256 yesTotal;
+        uint256 noTotal;
+        mapping(address => uint256) yesVotes;
+        mapping(address => uint256) noVotes;
     }
 
     Project[] public projects;
@@ -25,9 +29,9 @@ contract ProjectRegistry is Ownable {
       minDeposit = _minDeposit;
     }
 
-    function getProject(uint index) public view returns (bytes32 name, State state) {
+    function getProject(uint index) public view returns (bytes32 name, State state, uint256 yesTotal, uint256 noTotal) {
         require(projects.length > index, "Index out of bounds");
-        return (projects[index].name, projects[index].state);
+        return (projects[index].name, projects[index].state, projects[index].yesTotal, projects[index].noTotal);
     }
 
     function getProjectsLength() public view returns (uint) {
@@ -40,10 +44,46 @@ contract ProjectRegistry is Ownable {
 
     function applyWithProject(bytes32 name) public {
         require(token.transferFrom(msg.sender, address(this), minDeposit));
-        projects.push(Project({name: name, state: State.APPLICATION}));
+        projects.push(Project({name: name, state: State.APPLICATION, yesTotal: 0, noTotal: 0}));
 
         emit ProjectAdded();
     }
+
+    function vote(uint256 _projectId, uint256 _value, bool yes) public {
+        require(projects[_projectId].yesVotes[msg.sender] == 0 && projects[_projectId].noVotes[msg.sender] == 0);
+        require(_value <= token.balanceOf(msg.sender));
+
+        if (yes) {
+          projects[_projectId].yesTotal += _value;
+          projects[_projectId].yesVotes[msg.sender] += _value;
+        } else {
+          projects[_projectId].noTotal += _value;
+          projects[_projectId].noVotes[msg.sender] += _value;
+        }
+        resolveApplication(_projectId);
+    }
+
+    function resolveApplication(uint256 _projectId) public {
+        require(projects[_projectId].state == State.APPLICATION);
+        uint256 quorum = projects[_projectId].yesTotal + projects[_projectId].noTotal;
+        if (quorum > token.totalSupply() / 2) {
+          if (projects[_projectId].yesTotal > projects[_projectId].noTotal) {
+            projects[_projectId].state = State.ACTIVE;
+          } else if (projects[_projectId].yesTotal < projects[_projectId].noTotal) {
+            projects[_projectId].state = State.REJECTED;
+            //TODO: Split deposit
+          }
+        }
+    }
+
+
+    function collectApplicationReward(uint256 _projectId) public {
+      require(projects[_projectId].state == State.REJECTED);
+      uint256 reward = minDeposit * projects[_projectId].noTotal / projects[_projectId].noVotes[msg.sender];
+      token.transfer(msg.sender, reward);
+      projects[_projectId].noVotes[msg.sender] = 0;
+    }
+
 
     function removeProject(uint index) public {
         require(projects.length > index, "Index out of bounds");
