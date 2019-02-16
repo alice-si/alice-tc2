@@ -22,6 +22,7 @@ contract ProjectRegistry is Ownable {
 
     event ProjectAdded();
     event ProjectRemoved(uint index);
+    event Vote(uint256 projectId);
 
 
     constructor(uint256 _minDeposit) public {
@@ -61,6 +62,7 @@ contract ProjectRegistry is Ownable {
           projects[_projectId].noVotes[msg.sender] += _value;
         }
         resolveApplication(_projectId);
+        emit Vote(_projectId);
     }
 
     function resolveApplication(uint256 _projectId) public {
@@ -71,7 +73,6 @@ contract ProjectRegistry is Ownable {
             projects[_projectId].state = State.ACTIVE;
           } else if (projects[_projectId].yesTotal < projects[_projectId].noTotal) {
             projects[_projectId].state = State.REJECTED;
-            //TODO: Split deposit
           }
         }
     }
