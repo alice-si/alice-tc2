@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/components/Dashboard'
+import Registry from '@/components/Registry'
 import Signup from '@/components/Signup'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 
+Vue.use(VueMaterial)
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'dashboard',
-      component: Dashboard
+      name: 'registry',
+      component: Registry
     },
     {
       path: '/signup',

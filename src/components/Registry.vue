@@ -1,19 +1,39 @@
 <template>
-  <div class="dashboard">
-    <h1>{{ msg }}</h1>
-    <div v-if="userExists">
-      Welcome {{ pseudo }}. Destroy your account by clicking <a href="#" @click="destroyAccount">here</a>.
-    </div>
-    <div v-else><router-link to="/signup"><md-button>Sign up here</md-button></router-link>.</div>
+  <md-list>
+    <md-list-item>
+      <md-avatar>
+        <img src="https://placeimg.com/40/40/people/5" alt="People">
+      </md-avatar>
 
-  </div>
+      <span class="md-list-item-text">Project 1</span>
+
+      <md-button class="md-icon-button md-list-action">
+        <md-icon class="md-primary">chat_bubble</md-icon>
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-avatar>
+        <img src="https://placeimg.com/40/40/people/5" alt="People">
+      </md-avatar>
+
+      <span class="md-list-item-text">Project 1</span>
+
+      <md-button class="md-icon-button md-list-action">
+        <md-icon class="md-primary">chat_bubble</md-icon>
+      </md-button>
+    </md-list-item>
+
+
+
+  </md-list>
 </template>
 
 <script>
 import Users from '@/js/users'
 
 export default {
-  name: 'dashboard',
+  name: 'registry',
   data () {
     return {
       msg: 'Welcome to Alice TC2',
@@ -53,22 +73,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-  display: block;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  .md-list {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .md-list-item {
+    border-bottom: 1px solid #D3D3D3;
+  }
 </style>
