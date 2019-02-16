@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import state from './state'
 import getWeb3 from '../util/getWeb3'
+import getContract from '../util/getContract'
+import getProjects from '../util/getProjects'
 import pollWeb3 from '../util/pollWeb3'
 
 Vue.use(Vuex)
@@ -26,6 +28,14 @@ export const store = new Vuex.Store({
       console.log('pollWeb3Instance mutation being executed', payload)
       state.web3.coinbase = payload.coinbase
       state.web3.balance = parseInt(payload.balance, 10)
+    },
+    registerContractInstance (state, payload) {
+      console.log('ProjectRegistry contract instance: ', payload)
+      state.contractInstance = () => payload
+    },
+    updateProjects (state, payload) {
+      console.log('Updating projects')
+      state.projects = payload
     }
   },
   actions: {
@@ -41,6 +51,21 @@ export const store = new Vuex.Store({
     pollWeb3 ({commit}, payload) {
       console.log('pollWeb3 action being executed')
       commit('pollWeb3Instance', payload)
+    },
+    getContractInstance ({commit}) {
+      getContract.then(result => {
+        commit('registerContractInstance', result)
+      }).catch(e => console.log(e))
+    },
+    updateProjects ({commit}) {
+      if (state.contractInstance) {
+        let contractInstance = state.contractInstance()
+        getProjects(contractInstance).then(result => {
+          commit('updateProjects', result)
+        }).catch(e => console.log(e))
+      } else {
+        console.log('State doesnt contain contractInstance')
+      }
     }
   }
 })

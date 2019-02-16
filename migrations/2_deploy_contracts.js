@@ -1,5 +1,5 @@
-var Users = artifacts.require("./Users.sol");
+var ProjectRegistry = artifacts.require("./ProjectRegistry.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Users);
+  deployer.deploy(ProjectRegistry);
 };
