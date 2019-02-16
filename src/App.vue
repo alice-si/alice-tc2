@@ -1,5 +1,8 @@
 <template>
   <div class="page-container">
+
+    <metamask></metamask>
+
     <md-app>
       <md-app-toolbar class="md-primary">
         <span class="md-title">Social projects</span>
@@ -13,8 +16,17 @@
 </template>
 
 <script>
+import Metamask from '@/components/Metamask'
+
 export default {
-  name: 'app'
+  name: 'app',
+  beforeCreate () {
+    console.log('registerWeb3 Action dispatched from App.vue')
+    this.$store.dispatch('registerWeb3')
+  },
+  components: {
+    'metamask': Metamask
+  }
 }
 </script>
 
