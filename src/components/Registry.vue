@@ -4,11 +4,9 @@
   <md-list>
     <span class="md-title">Active projects</span>
     <md-list-item v-for='project in activeProjects'>
-      <span class="md-list-item-text">{{ project }}</span>
+      <span class="md-list-item-text">{{project.name}}</span>
 
-      <md-button class="md-icon-button md-list-action">
-        <md-icon class="md-primary">close</md-icon>
-      </md-button>
+      <md-button class="md-raised" v-on:click='challenge(project)'>Challenge</md-button>
     </md-list-item>
   </md-list>
 
@@ -95,6 +93,7 @@ export default {
       contractInstance.applyAndPay(blockchainUtils.web3.fromAscii(this.projectName), {
         from: this.$store.state.web3.coinbase
       }, (err, result) => {
+        this.projectName = ''
         if (err) {
           console.log(err)
           this.pending = false
@@ -119,6 +118,18 @@ export default {
       let contractInstance = this.$store.state.getContractInstance('registry')
       const balance = this.$store.state.tokenBalance
       contractInstance.vote(project.id, balance, yesOrNo, {
+        from: this.$store.state.web3.coinbase
+      }, (err, result) => {
+        if (err) {
+          console.log(err)
+        }
+      })
+    },
+    challenge (project) {
+      console.log('Challenging project nr: ' + project.id)
+      console.log(project)
+      let contractInstance = this.$store.state.getContractInstance('wallet')
+      contractInstance.challengeAndPay(project.id, {
         from: this.$store.state.web3.coinbase
       }, (err, result) => {
         if (err) {

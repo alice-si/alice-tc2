@@ -42,7 +42,7 @@ export default {
       setInterval(function () {
         console.log('Dispatching syncWithContracts... Next dispatch in 5 seconds')
         app.$store.dispatch('syncWithContracts')
-      }, 5000)
+      }, 1000)
     }
   },
   methods: {
