@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import blockchainUtils from '../util/blockchainUtils'
+
 export default {
   name: 'balance',
   computed: {
@@ -27,8 +29,8 @@ export default {
   methods: {
     mintTokens () {
       console.log('Trying to mint tokens')
-      let contractInstance = this.$store.state.getContractInstance('registry')
-      const amountToMint = 500
+      let contractInstance = this.$store.state.getContractInstance('wallet')
+      const amountToMint = blockchainUtils.web3.toWei('20', 'ether')
       contractInstance.mintTokens(amountToMint, {
         gas: 300000,
         from: this.$store.state.web3.coinbase

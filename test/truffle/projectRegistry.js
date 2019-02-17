@@ -14,7 +14,7 @@ contract('ProjectRegistry', function([main, applicant, voter1, voter2, challenge
         let tokenAddress = await wallet.getToken();
         token = await Token.at(tokenAddress);
         projectRegistry = await ProjectRegistry.new(deposit, wallet.address, {from: main, gas: 5000000});
-        await wallet.setProjectRegistry(projectRegistry.address);
+        // await wallet.setProjectRegistry(projectRegistry.address);
 
         let length = await projectRegistry.getProjectsLength.call();
         assert.equal(length, 0);
@@ -26,8 +26,8 @@ contract('ProjectRegistry', function([main, applicant, voter1, voter2, challenge
       let total = await token.totalSupply();
       let balance = await wallet.balanceOf(applicant);
 
-      assert(total, deposit);
-      assert(balance, deposit);
+      assert.equal(total, deposit);
+      assert.equal(balance, deposit);
     });
 
 

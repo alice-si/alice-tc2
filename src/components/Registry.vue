@@ -2,12 +2,31 @@
 <div>
 
   <md-list>
-    <md-list-item v-for='project in projects'>
-      <md-avatar>
-        <img src="https://placeimg.com/40/40/people/5" alt="Image">
-      </md-avatar>
-
+    <span class="md-title">Active projects</span>
+    <md-list-item v-for='project in activeProjects'>
       <span class="md-list-item-text">{{ project }}</span>
+
+      <md-button class="md-icon-button md-list-action">
+        <md-icon class="md-primary">close</md-icon>
+      </md-button>
+    </md-list-item>
+  </md-list>
+
+  <md-list>
+    <span class="md-title">Other projects</span>
+    <md-list-item v-for='project in inactiveProjects'>
+
+      <span class="md-list-item-text">{{ project.name + "(" + project.status + ")" }}</span>
+
+      <span v-if="project.yesTotal > 0 || project.noTotal > 0">
+        TODO alex
+        TODO - vote results will be here
+      </span>
+
+      <span v-if="project.canVote">
+        TODO alex
+        TODO - buttons for voting will be here
+      </span>
 
       <md-button class="md-icon-button md-list-action">
         <md-icon class="md-primary">close</md-icon>
@@ -19,7 +38,7 @@
       <label>Project name</label>
       <md-input v-model="projectName"></md-input>
   </md-field>
-  <md-button class="md-raised md-primary" v-on:click='addProject()'>Add new project</md-button>
+  <md-button class="md-raised md-primary" v-on:click='applyWithProject()'>Apply with a new project</md-button>
 </div>
 </template>
 
@@ -44,15 +63,24 @@ export default {
   computed: {
     projects () {
       return this.$store.state.projects
+    },
+    activeProjects () {
+      return this.$store.state.projects.filter(project =>
+        project.status === 'ACTIVE'
+      )
+    },
+    inactiveProjects () {
+      return this.$store.state.projects.filter(project =>
+        project.status !== 'ACTIVE'
+      )
     }
   },
   methods: {
-    addProject () {
+    applyWithProject () {
       this.pending = true
       console.log('Trying to add project with name: ' + this.projectName)
-      let contractInstance = this.$store.state.getContractInstance('registry')
-      contractInstance.applyWithProject(blockchainUtils.web3.fromAscii(this.projectName), {
-        gas: 300000,
+      let contractInstance = this.$store.state.getContractInstance('wallet')
+      contractInstance.applyAndPay(blockchainUtils.web3.fromAscii(this.projectName), {
         from: this.$store.state.web3.coinbase
       }, (err, result) => {
         if (err) {
@@ -60,7 +88,7 @@ export default {
           this.pending = false
         } else {
           console.log('Event watching started')
-          let ProjectAdded = contractInstance.ProjectAdded()
+          let ProjectAdded = this.$store.state.getContractInstance('registry').ProjectAdded()
           ProjectAdded.watch((err, result) => {
             if (err) {
               console.log('Could not get event ProjectAdded()')

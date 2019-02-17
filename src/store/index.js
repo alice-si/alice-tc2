@@ -12,7 +12,7 @@ function syncWithContracts ({commit, dispatch}) {
     console.log('Syncing with blockchain')
     dispatch('updateProjects', state.getContractInstance('registry'))
     dispatch('updateTokenBalance', {
-      token: state.getContractInstance('token'),
+      wallet: state.getContractInstance('wallet'),
       userAddress: state.web3.coinbase
     })
   } else {
@@ -48,6 +48,8 @@ export const store = new Vuex.Store({
       state.getContractInstance = (name) => {
         if (name === 'token') {
           return payload.registryTokenContractInstance
+        } else if (name === 'wallet') {
+          return payload.proxyWalletContractInstance
         } else {
           return payload.projectRegistryContractInstance
         }

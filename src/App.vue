@@ -7,6 +7,7 @@
     <md-app>
       <md-app-toolbar class="md-primary">
         <span class="md-title">Social projects</span>
+        <a id="refresh-button" v-on:click='refreshApp()'><md-icon  class="md-primary">refresh</md-icon></a>
       </md-app-toolbar>
 
       <md-app-content>
@@ -25,6 +26,11 @@ export default {
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
+  },
+  methods: {
+    refreshApp () {
+      this.$store.dispatch('syncWithContracts')
+    }
   },
   components: {
     'metamask': Metamask,
@@ -48,5 +54,11 @@ export default {
   .md-drawer {
     width: 230px;
     max-width: calc(100vw - 125px);
+  }
+
+  #refresh-button {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
   }
 </style>

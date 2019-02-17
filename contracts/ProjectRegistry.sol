@@ -34,6 +34,7 @@ contract ProjectRegistry is Ownable {
 
     constructor(uint256 _minDeposit, ProxyWallet _proxyWallet) public {
       proxyWallet = _proxyWallet;
+      proxyWallet.setProjectRegistry(this);
       token = proxyWallet.getToken();
       minDeposit = _minDeposit;
     }
