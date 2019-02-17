@@ -30,7 +30,7 @@
 import Metamask from '@/components/Metamask'
 import Balance from '@/components/Balance'
 
-const easyUpdateEnabled = false
+const easyUpdateEnabled = true
 
 export default {
   name: 'app',
