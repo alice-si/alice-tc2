@@ -1,7 +1,7 @@
 const ProjectRegistry = artifacts.require("./ProjectRegistry.sol");
 const Token = artifacts.require("./RegistryToken.sol");
 
-contract('ProjectRegistry', function([main, applicant, voter1, voter2]) {
+contract('ProjectRegistry', function([main, applicant, voter1, voter2, challenger]) {
     let projectRegistry, token;
 
     let deposit = web3.utils.toWei('10', 'ether');
@@ -112,14 +112,51 @@ contract('ProjectRegistry', function([main, applicant, voter1, voter2]) {
     await projectRegistry.collectApplicationReward(1, {from: voter2});
     let balance = await token.balanceOf(voter2);
     assert.equal(balance, deposit3); //initial balance + full applicant deposit
+  });
 
+
+  it("Should challenge", async function() {
+    await projectRegistry.mintTokens(deposit, {from: challenger});
+    await token.approve(projectRegistry.address, deposit, {from: challenger});
+
+    await projectRegistry.challengeProject(0, {from: challenger});
+
+    let project = await projectRegistry.getProject(0);
+    let votes = await projectRegistry.getVotes(0, voter1);
+
+    assert.equal(project[1], 2); //status CHALLENGE
+    assert.equal(project[2], 0); //yesTotal
+    assert.equal(project[3], 0); //noTotal
+    assert.equal(votes[0], 0); //yesTotal
+    assert.equal(votes[1], 0); //noTotal
+  });
+
+  it("Should vote for challenge", async function() {
+    await projectRegistry.vote(0, deposit, true, {from: voter1});
+
+    let project = await projectRegistry.getProject(0);
+    let votes = await projectRegistry.getVotes(0, voter1);
+
+    assert.equal(project[1], 2); //status CHALLENGE
+    assert.equal(project[2], deposit); //yesTotal
+    assert.equal(project[3], 0); //noTotal
+    assert.equal(votes[0], deposit); //yesTotal
+    assert.equal(votes[1], 0); //noTotal
 
   });
 
 
-    // it("Should remove the first project", async function () {
-    //     await projectRegistry.removeProject(0);
-    //     const length = await projectRegistry.getProjectsLength.call();
-    //     assert.equal(length.toNumber(), numberOfProjects - 1);
-    // });
+  it("Should vote", async function() {
+    await projectRegistry.vote(0, deposit2, false, {from: voter2});
+
+    let project = await projectRegistry.getProject(0);
+
+    assert.equal(project[1], 3); //status REJECTED
+    assert.equal(project[2], deposit); //yesTotal
+    assert.equal(project[3], deposit2); //noTotal
+
+    let balance = await token.balanceOf(challenger);
+    assert.equal(balance, deposit2); //initial balance + full applicant deposit
+  });
+
 });
