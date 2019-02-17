@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
       let result = payload
       let web3Copy = state.web3
       web3Copy.coinbase = result.coinbase
-      web3Copy.networkId = result.networkId
+      web3Copy.networkId = (result.networkId === '77' ? 'Sokol' : 'Main')
       web3Copy.balance = parseInt(result.balance, 10)
       web3Copy.isInjected = result.injectedWeb3
       web3Copy.web3Instance = result.web3

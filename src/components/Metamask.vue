@@ -5,7 +5,7 @@
     </md-card-header>
 
     <md-card-content>
-      <p>Metamask: {{ web3.isInjected }}</p>
+      <p>Connected: {{ web3.isInjected }}</p>
       <p>Network: {{ web3.networkId }}</p>
       <p>Account: {{ web3.coinbase }}</p>
       <p>Balance: {{ web3.balance }}</p>
@@ -26,7 +26,7 @@
 
 <style scoped>
   .md-card {
-    width: 500px;
+    width: 100%;
     margin: 4px;
     display: inline-block;
     vertical-align: top;
