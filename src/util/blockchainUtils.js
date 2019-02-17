@@ -5,14 +5,17 @@ import RegistryToken from '../../build/contracts/RegistryToken.json'
 import Promise from 'bluebird'
 import utils from './utils'
 
+const networkId = '1'
+
 let blockchainUtils = {}
 let web3 = new Web3(window.web3.currentProvider)
 
 function getContractAddress (contractArtefact) {
-  for (let key in contractArtefact.networks) {
-    const address = contractArtefact.networks[key].address
-    return address
-  }
+  // for (let key in contractArtefact.networks) {
+  //   const address = contractArtefact.networks[key].address
+  //   return address
+  // }
+  return contractArtefact.networks[networkId].address
 }
 
 blockchainUtils.getContractsInstances = () => new Promise(function (resolve, reject) {

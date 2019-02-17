@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
         console.log(project)
         let total = project.yesTotal.add(project.noTotal)
         if (total > 0) {
-          project.ratio = project.yesTotal.mul(100).div(total)
+          project.ratio = project.yesTotal.mul(100).div(total).toNumber()
         } else {
           project.ratio = 0
         }

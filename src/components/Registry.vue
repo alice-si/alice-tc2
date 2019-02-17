@@ -107,19 +107,6 @@ export default {
         this.projectName = ''
         if (err) {
           console.log(err)
-          this.pending = false
-        } else {
-          console.log('Event watching started')
-          let ProjectAdded = this.$store.state.getContractInstance('registry').ProjectAdded()
-          ProjectAdded.watch((err, result) => {
-            if (err) {
-              console.log('Could not get event ProjectAdded()')
-            } else {
-              console.log('Project was added')
-              this.$store.dispatch('syncWithContracts')
-              this.pending = false
-            }
-          })
         }
       })
     },
@@ -129,7 +116,8 @@ export default {
       let contractInstance = this.$store.state.getContractInstance('registry')
       const balance = this.$store.state.tokenBalance
       contractInstance.vote(project.id, balance, yesOrNo, {
-        from: this.$store.state.web3.coinbase
+        from: this.$store.state.web3.coinbase,
+        gas: 300000
       }, (err, result) => {
         if (err) {
           console.log(err)
@@ -141,7 +129,8 @@ export default {
       console.log(project)
       let contractInstance = this.$store.state.getContractInstance('wallet')
       contractInstance.challengeAndPay(project.id, {
-        from: this.$store.state.web3.coinbase
+        from: this.$store.state.web3.coinbase,
+        gas: 300000
       }, (err, result) => {
         if (err) {
           console.log(err)
