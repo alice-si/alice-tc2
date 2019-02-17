@@ -10,7 +10,10 @@ Vue.use(Vuex)
 function syncWithContracts ({commit, dispatch}) {
   if (state.getContractInstance) {
     console.log('Syncing with blockchain')
-    dispatch('updateProjects', state.getContractInstance('registry'))
+    dispatch('updateProjects', {
+      registry: state.getContractInstance('registry'),
+      userAddress: state.web3.coinbase
+    })
     dispatch('updateTokenBalance', {
       wallet: state.getContractInstance('wallet'),
       userAddress: state.web3.coinbase

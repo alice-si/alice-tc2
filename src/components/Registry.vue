@@ -16,21 +16,33 @@
     <span class="md-title">Other projects</span>
     <md-list-item v-for='project in inactiveProjects'>
 
-      <span class="md-list-item-text">{{ project.name + "(" + project.status + ")" }}</span>
+      <span class="md-list-item-text">{{ project.name}}</span>
+      <span class="md-list-item-text">{{project.status}}</span>
+      
 
-      <span v-if="project.yesTotal > 0 || project.noTotal > 0">
-        TODO alex
-        TODO - vote results will be here
+      <span v-if="project.yesTotal >= 0 || project.noTotal >= 0">
+        <table>
+          <tr>
+            <td>Yes</td>
+            <td>{{project.yesTotal}}</td>
+          </tr>
+          <tr>
+            <td>No</td>
+            <td>{{project.noTotal}}</td>
+          </tr>
+        </table>
       </span>
 
       <span v-if="project.canVote">
-        TODO alex
-        TODO - buttons for voting will be here
+        <md-button v-on:click="vote(true, project)" class="md-icon-button md-list-action">
+          <md-icon class="md-primary">check</md-icon>
+        </md-button>
+        <md-button v-on:click="vote(false, project)" class="md-icon-button md-list-action">
+          <md-icon class="md-primary">close</md-icon>
+        </md-button>
       </span>
 
-      <md-button class="md-icon-button md-list-action">
-        <md-icon class="md-primary">close</md-icon>
-      </md-button>
+      
     </md-list-item>
   </md-list>
 
@@ -98,6 +110,19 @@ export default {
               this.pending = false
             }
           })
+        }
+      })
+    },
+    vote (yesOrNo, project) {
+      console.log('Voting for project nr: ' + project.id + ' | Vote: ' + yesOrNo)
+      console.log(project)
+      let contractInstance = this.$store.state.getContractInstance('registry')
+      const balance = this.$store.state.tokenBalance
+      contractInstance.vote(project.id, balance, yesOrNo, {
+        from: this.$store.state.web3.coinbase
+      }, (err, result) => {
+        if (err) {
+          console.log(err)
         }
       })
     }

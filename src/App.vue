@@ -21,11 +21,20 @@
 import Metamask from '@/components/Metamask'
 import Balance from '@/components/Balance'
 
+const easyUpdateEnabled = false
+
 export default {
   name: 'app',
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
+    if (easyUpdateEnabled) {
+      let app = this
+      setInterval(function () {
+        console.log('Dispatching syncWithContracts... Next dispatch in 5 seconds')
+        app.$store.dispatch('syncWithContracts')
+      }, 5000)
+    }
   },
   methods: {
     refreshApp () {

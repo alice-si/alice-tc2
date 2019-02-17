@@ -33,13 +33,14 @@ blockchainUtils.getContractsInstances = () => new Promise(function (resolve, rej
   })
 })
 
-blockchainUtils.getProjects = async function (contract) {
-  const promisifiedContract = Promise.promisifyAll(contract)
+blockchainUtils.getProjects = async function (payload) {
+  const promisifiedContract = Promise.promisifyAll(payload.registry)
   let projects = []
   const length = await promisifiedContract.getProjectsLengthAsync()
   for (let i = 0; i < length; i++) {
     const project = await promisifiedContract.getProjectAsync(i)
-    projects.push(utils.convertProjectToObject(project))
+    const votes = await promisifiedContract.getVotesAsync(i, payload.userAddress)
+    projects.push(utils.convertProjectToObject(project, i, votes))
   }
   return projects
 }

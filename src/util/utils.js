@@ -17,29 +17,16 @@ utils.convertNumberToStatus = function (num) {
   }
 }
 
-utils.convertProjectToObject = function (project) {
+utils.convertProjectToObject = function (project, i, votes) {
+  let canVote = !votes || (votes[0].toNumber() === 0 && votes[1].toNumber() === 0)
   return {
     name: blockchainUtils.web3.toAscii(project[0]),
     status: utils.convertNumberToStatus(project[1]),
     yesTotal: project[2],
-    noTotal: project[3]
+    noTotal: project[3],
+    id: i,
+    canVote
   }
 }
-
-// TODO alex consider removing of it
-// utils.getProjectField = (project, name) => {
-//     switch (name) {
-//         case 'name':
-//             return project[0]
-//         case 'status':
-//             return project[1]
-//         case 'yesTotal':
-//             return project[2]
-//         case 'noTotal':
-//             return project[3]
-//         default:
-//             throw "Trying to get bad project field"
-//     }
-// }
 
 export default utils
