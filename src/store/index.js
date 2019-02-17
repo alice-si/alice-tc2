@@ -60,6 +60,17 @@ export const store = new Vuex.Store({
     },
     updateProjects (state, payload) {
       console.log('Updating projects')
+      payload.forEach(function (project) {
+        console.log(project)
+        let total = project.yesTotal.add(project.noTotal)
+        if (total > 0) {
+          project.ratio = project.yesTotal.mul(100).div(total)
+        } else {
+          project.ratio = 0
+        }
+        console.log(project.name + ' Ratio: ' + project.ratio)
+      })
+
       state.projects = payload
     },
     updateTokenBalance (state, payload) {
