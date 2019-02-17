@@ -52,6 +52,7 @@ blockchainUtils.getTokenBalance = function (payload) {
       if (err) {
         reject(err)
       } else {
+        console.log(res)
         console.log(`Current balance for address: ${payload.userAddress} equals ${res}`)
         resolve(res)
       }
