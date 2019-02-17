@@ -66,11 +66,11 @@ contract ProjectRegistry is Ownable {
       projects[_projectId].state = State.CHALLENGE;
       projects[_projectId].yesTotal = 0;
       projects[_projectId].noTotal = 0;
-      for(uint i=0; i<projects[_projectId].voters.length; i++) {
-        projects[_projectId].yesVotes[projects[_projectId].voters[i]] = 0;
-        projects[_projectId].noVotes[projects[_projectId].voters[i]] = 0;
-      }
-      projects[_projectId].voters.length = 0;
+      // for(uint i=0; i<projects[_projectId].voters.length; i++) {
+      //   projects[_projectId].yesVotes[projects[_projectId].voters[i]] = 0;
+      //   projects[_projectId].noVotes[projects[_projectId].voters[i]] = 0;
+      // }
+      // projects[_projectId].voters.length = 0;
       projects[_projectId].challenger = _challenger;
       emit ProjectChallenged(_projectId);
     }
