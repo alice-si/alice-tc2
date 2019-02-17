@@ -2,22 +2,38 @@
 <div>
 
   <md-list>
-    <span class="md-title">Active projects</span>
+
     <md-list-item v-for='project in activeProjects'>
-      <span class="md-list-item-text">{{project.name}}</span>
+      <span class="md-list-item-text">{{ project.name}}</span>
+      <span class="md-list-item-text">{{project.status}}</span>
 
       <md-button class="md-raised" v-on:click='challenge(project)'>Challenge</md-button>
     </md-list-item>
   </md-list>
 
   <md-list>
-    <span class="md-title">Other projects</span>
-    <md-list-item v-for='project in inactiveProjects'>
+    <span class="md-title">Waiting list</span>
+    <md-list-item v-for='project in applications'>
 
-      <span class="md-list-item-text">{{ project.name}}</span>
-      <span class="md-list-item-text">{{project.status}}</span>
-      
+      <span class="md-list-item-text">{{ project.name }}</span>
 
+      <span v-if="project.canVote">
+        <md-button v-on:click="vote(true, project)" class="md-icon-button md-list-action yes-button" >
+          <md-icon class="md-primary">check</md-icon>
+        </md-button>
+      </span>
+
+      <md-progress-bar class="voting" md-mode="determinate" :md-value="project.ratio"></md-progress-bar>
+
+
+      <span v-if="project.canVote">
+        <md-button v-on:click="vote(false, project)" class="md-icon-button md-list-action no-button">
+          <md-icon class="md-primary">close</md-icon>
+        </md-button>
+      </span>
+
+
+      <!--
       <span v-if="project.yesTotal >= 0 || project.noTotal >= 0">
         <table>
           <tr>
@@ -30,17 +46,12 @@
           </tr>
         </table>
       </span>
+      -->
 
-      <span v-if="project.canVote">
-        <md-button v-on:click="vote(true, project)" class="md-icon-button md-list-action">
-          <md-icon class="md-primary">check</md-icon>
-        </md-button>
-        <md-button v-on:click="vote(false, project)" class="md-icon-button md-list-action">
-          <md-icon class="md-primary">close</md-icon>
-        </md-button>
-      </span>
 
-      
+
+
+
     </md-list-item>
   </md-list>
 
@@ -76,12 +87,12 @@ export default {
     },
     activeProjects () {
       return this.$store.state.projects.filter(project =>
-        project.status === 'ACTIVE'
+        project.status !== 'APPLICATION'
       )
     },
-    inactiveProjects () {
+    applications () {
       return this.$store.state.projects.filter(project =>
-        project.status !== 'ACTIVE'
+        project.status === 'APPLICATION'
       )
     }
   },
@@ -151,5 +162,14 @@ export default {
   }
   .md-list-item {
     border-bottom: 1px solid #D3D3D3;
+  }
+  .voting {
+    width: 200px;
+  }
+  .yes-button {
+    margin-right: 0 !important;
+  }
+  .no-button {
+    margin-left: 0 !important;
   }
 </style>
