@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 import './RegistryToken.sol';
+import './ProxyWallet.sol';
 
 contract ProjectRegistry is Ownable {
 
@@ -19,7 +20,9 @@ contract ProjectRegistry is Ownable {
     }
 
     Project[] public projects;
-    RegistryToken public token;
+    RegistryToken token;
+    ProxyWallet proxyWallet;
+
     uint256 public minDeposit;
 
     event ProjectAdded();
@@ -29,8 +32,9 @@ contract ProjectRegistry is Ownable {
     event Vote(uint256 projectId);
 
 
-    constructor(uint256 _minDeposit) public {
-      token = new RegistryToken();
+    constructor(uint256 _minDeposit, ProxyWallet _proxyWallet) public {
+      proxyWallet = _proxyWallet;
+      token = proxyWallet.getToken();
       minDeposit = _minDeposit;
     }
 
@@ -47,10 +51,6 @@ contract ProjectRegistry is Ownable {
         return projects.length;
     }
 
-    function mintTokens(uint256 _value) public {
-        token.mint(msg.sender, _value);
-    }
-
     function applyWithProject(bytes32 name) public {
         require(token.transferFrom(msg.sender, address(this), minDeposit));
         projects.push(Project({name: name, state: State.APPLICATION, yesTotal: 0, noTotal: 0, challenger: address(0), voters: new address[](0)}));
@@ -58,7 +58,7 @@ contract ProjectRegistry is Ownable {
         emit ProjectAdded();
     }
 
-    function challengeProject(uint256 _projectId) public {
+    function challengeProject(uint256 _projectId, address _challenger) public {
       require(projects[_projectId].state == State.ACTIVE);
       require(token.transferFrom(msg.sender, address(this), minDeposit));
 
@@ -70,14 +70,14 @@ contract ProjectRegistry is Ownable {
         projects[_projectId].noVotes[projects[_projectId].voters[i]] = 0;
       }
       projects[_projectId].voters.length = 0;
-      projects[_projectId].challenger = msg.sender;
+      projects[_projectId].challenger = _challenger;
       emit ProjectChallenged(_projectId);
     }
 
     function vote(uint256 _projectId, uint256 _value, bool yes) public {
         require(projects[_projectId].state == State.APPLICATION || projects[_projectId].state == State.CHALLENGE);
         require(projects[_projectId].yesVotes[msg.sender] == 0 && projects[_projectId].noVotes[msg.sender] == 0);
-        require(_value <= token.balanceOf(msg.sender));
+        require(_value <= proxyWallet.balanceOf(msg.sender));
 
         if (yes) {
           projects[_projectId].yesTotal += _value;
@@ -101,7 +101,8 @@ contract ProjectRegistry is Ownable {
             emit ProjectApproved(_projectId);
           } else if (projects[_projectId].yesTotal < projects[_projectId].noTotal) {
             if (projects[_projectId].state == State.CHALLENGE) {
-              token.transfer(projects[_projectId].challenger, minDeposit*2);
+              token.approve(address(proxyWallet), minDeposit*2);
+              proxyWallet.deposit(minDeposit*2, projects[_projectId].challenger);
               projects[_projectId].challenger = address(0);
             }
             projects[_projectId].state = State.REJECTED;
@@ -114,7 +115,8 @@ contract ProjectRegistry is Ownable {
     function collectApplicationReward(uint256 _projectId) public {
       require(projects[_projectId].state == State.REJECTED);
       uint256 reward = minDeposit * projects[_projectId].noTotal / projects[_projectId].noVotes[msg.sender];
-      token.transfer(msg.sender, reward);
+      token.approve(address(proxyWallet), reward);
+      proxyWallet.deposit(reward, msg.sender);
       projects[_projectId].noVotes[msg.sender] = 0;
     }
 
