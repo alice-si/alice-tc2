@@ -13,6 +13,17 @@ module.exports = {
       gas: 500000,
       gasPrice: 1000000000
     },
+    skale: {
+      provider: function() {
+        return new HDWalletProvider(
+          process.env.MNEMONIC,
+          "http://142.93.85.174:8102")
+      },
+      gasPrice: 0,
+      network_id: "*"
+    },
+
+
     development: {
       host: "localhost",
       port: 8545,

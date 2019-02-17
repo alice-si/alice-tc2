@@ -19,18 +19,29 @@ blockchainUtils.getContractsInstances = () => new Promise(function (resolve, rej
   let proxyWalletContract = web3.eth.contract(ProxyWallet.abi)
   let proxyWalletContractInstance = proxyWalletContract.at(getContractAddress(ProxyWallet))
 
+  console.log('Proxy wallet: ' + getContractAddress(ProxyWallet))
+
+  console.log(proxyWalletContractInstance)
+
   let projectRegistryContract = web3.eth.contract(ProjectRegistry.abi)
   let projectRegistryContractInstance = projectRegistryContract.at(getContractAddress(ProjectRegistry))
+  console.log(projectRegistryContractInstance)
 
   let registryTokenContract = web3.eth.contract(RegistryToken.abi)
-  proxyWalletContractInstance.getToken.call((err, tokenAddress) => {
-    if (err) {
-      reject(err)
-    } else {
-      let registryTokenContractInstance = registryTokenContract.at(tokenAddress)
-      resolve({projectRegistryContractInstance, registryTokenContractInstance, proxyWalletContractInstance})
-    }
-  })
+  console.log(registryTokenContract)
+
+  resolve({projectRegistryContractInstance, proxyWalletContractInstance})
+
+  // proxyWalletContractInstance.getToken.call((err, tokenAddress) => {
+  //   console.log('TUTAJ')
+  //   if (err) {
+  //     reject(err)
+  //   } else {
+  //     console.log('Token: ' + tokenAddress)
+  //     let registryTokenContractInstance = registryTokenContract.at(tokenAddress)
+  //     resolve({projectRegistryContractInstance, registryTokenContractInstance, proxyWalletContractInstance})
+  //   }
+  // })
 })
 
 blockchainUtils.getProjects = async function (payload) {
