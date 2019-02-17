@@ -1,7 +1,8 @@
 <template>
   <div class="page-container">
-
+    <h1>Impact Curator</h1>
     <div class="md-layout">
+
       <div class="md-layout-item md-size-70">
         <md-app>
           <md-app-toolbar class="md-primary">
