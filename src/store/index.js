@@ -2,11 +2,26 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import state from './state'
 import getWeb3 from '../util/getWeb3'
-import getContract from '../util/getContract'
-import getProjects from '../util/getProjects'
+import blockchainUtils from '../util/blockchainUtils'
 import pollWeb3 from '../util/pollWeb3'
 
 Vue.use(Vuex)
+
+function syncWithContracts ({commit, dispatch}) {
+  if (state.getContractInstance) {
+    console.log('Syncing with blockchain')
+    dispatch('updateProjects', state.getContractInstance('registry'))
+    dispatch('updateTokenBalance', {
+      token: state.getContractInstance('token'),
+      userAddress: state.web3.coinbase
+    })
+  } else {
+    console.log('State doesnt contain contractInstance. Retrying in 3 sec...')
+    setTimeout(() => {
+      dispatch('syncWithContracts')
+    }, 3000)
+  }
+}
 
 export const store = new Vuex.Store({
   strict: true,
@@ -29,13 +44,22 @@ export const store = new Vuex.Store({
       state.web3.coinbase = payload.coinbase
       state.web3.balance = parseInt(payload.balance, 10)
     },
-    registerContractInstance (state, payload) {
-      console.log('ProjectRegistry contract instance: ', payload)
-      state.contractInstance = () => payload
+    registerContractsInstances (state, payload) {
+      state.getContractInstance = (name) => {
+        if (name === 'token') {
+          return payload.registryTokenContractInstance
+        } else {
+          return payload.projectRegistryContractInstance
+        }
+      }
     },
     updateProjects (state, payload) {
       console.log('Updating projects')
       state.projects = payload
+    },
+    updateTokenBalance (state, payload) {
+      console.log('Updating token balance')
+      state.tokenBalance = payload
     }
   },
   actions: {
@@ -52,20 +76,21 @@ export const store = new Vuex.Store({
       console.log('pollWeb3 action being executed')
       commit('pollWeb3Instance', payload)
     },
-    getContractInstance ({commit}) {
-      getContract.then(result => {
-        commit('registerContractInstance', result)
+    getContractsInstances ({commit}) {
+      blockchainUtils.getContractsInstances().then(result => {
+        commit('registerContractsInstances', result)
       }).catch(e => console.log(e))
     },
-    updateProjects ({commit}) {
-      if (state.contractInstance) {
-        let contractInstance = state.contractInstance()
-        getProjects(contractInstance).then(result => {
-          commit('updateProjects', result)
-        }).catch(e => console.log(e))
-      } else {
-        console.log('State doesnt contain contractInstance')
-      }
-    }
+    updateProjects ({commit}, payload) {
+      blockchainUtils.getProjects(payload).then(result => {
+        commit('updateProjects', result)
+      }).catch(e => console.log(e))
+    },
+    updateTokenBalance ({commit}, payload) {
+      blockchainUtils.getTokenBalance(payload).then(result => {
+        commit('updateTokenBalance', result)
+      }).catch(e => console.log(e))
+    },
+    syncWithContracts
   }
 })

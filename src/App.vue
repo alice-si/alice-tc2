@@ -2,6 +2,7 @@
   <div class="page-container">
 
     <metamask></metamask>
+    <balance></balance>
 
     <md-app>
       <md-app-toolbar class="md-primary">
@@ -17,6 +18,7 @@
 
 <script>
 import Metamask from '@/components/Metamask'
+import Balance from '@/components/Balance'
 
 export default {
   name: 'app',
@@ -25,7 +27,8 @@ export default {
     this.$store.dispatch('registerWeb3')
   },
   components: {
-    'metamask': Metamask
+    'metamask': Metamask,
+    'balance': Balance
   }
 }
 </script>

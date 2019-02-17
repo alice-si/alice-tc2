@@ -1,37 +1,30 @@
 <template>
 <div>
-  <input type="text" v-model='projectName'>
-  <input type="button" value="Add new project" v-on:click='addProject()'>
 
   <md-list>
-    <md-list-item>
-      <md-avatar>
-        <img src="https://placeimg.com/40/40/people/5" alt="People">
-      </md-avatar>
-
-      <span class="md-list-item-text">Project 1</span>
-
-      <md-button class="md-icon-button md-list-action">
-        <md-icon class="md-primary">chat_bubble</md-icon>
-      </md-button>
-    </md-list-item>
-
     <md-list-item v-for='project in projects'>
       <md-avatar>
-        <img src="https://placeimg.com/40/40/people/5" alt="People">
+        <img src="https://placeimg.com/40/40/people/5" alt="Image">
       </md-avatar>
 
       <span class="md-list-item-text">{{ project }}</span>
 
       <md-button class="md-icon-button md-list-action">
-        <md-icon class="md-primary">chat_bubble</md-icon>
+        <md-icon class="md-primary">close</md-icon>
       </md-button>
     </md-list-item>
   </md-list>
+
+  <md-field>
+      <label>Project name</label>
+      <md-input v-model="projectName"></md-input>
+  </md-field>
+  <md-button class="md-raised md-primary" v-on:click='addProject()'>Add new project</md-button>
 </div>
 </template>
 
 <script>
+import blockchainUtils from '../util/blockchainUtils.js'
 
 export default {
   name: 'registry',
@@ -45,8 +38,8 @@ export default {
   },
   mounted () {
     console.log('dispatching getContractInstance')
-    this.$store.dispatch('getContractInstance')
-    this.$store.dispatch('updateProjects')
+    this.$store.dispatch('getContractsInstances')
+    this.$store.dispatch('syncWithContracts')
   },
   computed: {
     projects () {
@@ -57,7 +50,8 @@ export default {
     addProject () {
       this.pending = true
       console.log('Trying to add project with name: ' + this.projectName)
-      this.$store.state.contractInstance().addProject(this.projectName, {
+      let contractInstance = this.$store.state.getContractInstance('registry')
+      contractInstance.applyWithProject(blockchainUtils.web3.fromAscii(this.projectName), {
         gas: 300000,
         from: this.$store.state.web3.coinbase
       }, (err, result) => {
@@ -66,13 +60,13 @@ export default {
           this.pending = false
         } else {
           console.log('Event watching started')
-          let ProjectAdded = this.$store.state.contractInstance().ProjectAdded()
+          let ProjectAdded = contractInstance.ProjectAdded()
           ProjectAdded.watch((err, result) => {
             if (err) {
               console.log('Could not get event ProjectAdded()')
             } else {
               console.log('Project was added')
-              this.$store.dispatch('updateProjects')
+              this.$store.dispatch('syncWithContracts')
               this.pending = false
             }
           })
