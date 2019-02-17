@@ -32,25 +32,30 @@ blockchainUtils.getContractsInstances = () => new Promise(function (resolve, rej
 
   resolve({projectRegistryContractInstance, proxyWalletContractInstance})
 
-  // proxyWalletContractInstance.getToken.call((err, tokenAddress) => {
-  //   console.log('TUTAJ')
-  //   if (err) {
-  //     reject(err)
-  //   } else {
-  //     console.log('Token: ' + tokenAddress)
-  //     let registryTokenContractInstance = registryTokenContract.at(tokenAddress)
-  //     resolve({projectRegistryContractInstance, registryTokenContractInstance, proxyWalletContractInstance})
-  //   }
-  // })
+  console.log(web3.eth.coinbase)
+
+  proxyWalletContractInstance.getToken.call({from: web3.eth.coinbase}, (err, tokenAddress) => {
+    console.log('Getting contracts')
+    if (err) {
+      console.log('ERRR')
+      console.log(err)
+      reject(err)
+    } else {
+      console.log('Token: ' + tokenAddress)
+      let registryTokenContractInstance = registryTokenContract.at(tokenAddress)
+      resolve({projectRegistryContractInstance, registryTokenContractInstance, proxyWalletContractInstance})
+    }
+  })
 })
 
 blockchainUtils.getProjects = async function (payload) {
   const promisifiedContract = Promise.promisifyAll(payload.registry)
   let projects = []
-  const length = await promisifiedContract.getProjectsLengthAsync()
+  const length = await promisifiedContract.getProjectsLengthAsync({from: web3.eth.coinbase})
+  console.log('Length: ' + length)
   for (let i = 0; i < length; i++) {
-    const project = await promisifiedContract.getProjectAsync(i)
-    const votes = await promisifiedContract.getVotesAsync(i, payload.userAddress)
+    const project = await promisifiedContract.getProjectAsync(i, {from: web3.eth.coinbase})
+    const votes = await promisifiedContract.getVotesAsync(i, payload.userAddress, {from: web3.eth.coinbase})
     projects.push(utils.convertProjectToObject(project, i, votes))
   }
   return projects
@@ -60,7 +65,7 @@ blockchainUtils.getTokenBalance = function (payload) {
   console.log(payload)
   return new Promise(function (resolve, reject) {
     let walletContractInstance = payload.wallet
-    walletContractInstance.balanceOf.call(payload.userAddress, function (err, res) {
+    walletContractInstance.balanceOf.call(payload.userAddress, {from: payload.userAddress}, function (err, res) {
       if (err) {
         reject(err)
       } else {

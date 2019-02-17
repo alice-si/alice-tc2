@@ -102,7 +102,7 @@ export default {
       console.log('Trying to add project with name: ' + this.projectName)
       let contractInstance = this.$store.state.getContractInstance('wallet')
       contractInstance.applyAndPay(blockchainUtils.web3.fromAscii(this.projectName), {
-        from: this.$store.state.web3.coinbase
+        from: this.$store.state.web3.coinbase, gas: 3000000
       }, (err, result) => {
         this.projectName = ''
         if (err) {
